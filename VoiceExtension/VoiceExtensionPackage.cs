@@ -43,9 +43,7 @@ namespace MadsKristensen.VoiceExtension
 
         private void OnListening(object sender, EventArgs e)
         {
-            _rec.RecognizeAsyncStop();
             _rec.RecognizeAsync();
-
             _dte.StatusBar.Text = "I'm listening...";
             _dte.StatusBar.Highlight(true);
         }
@@ -66,19 +64,23 @@ namespace MadsKristensen.VoiceExtension
 
         private void OnRecognizeCompleted(object sender, RecognizeCompletedEventArgs e)
         {
+            _rec.RecognizeAsyncStop();
+
             if (e.Result != null && e.Result.Confidence > 0.87 && _dic.ContainsKey(e.Result.Text))
             {
-                if (!TryExecuteCommand(_dic[e.Result.Text]))
+                if (TryExecuteCommand(_dic[e.Result.Text]))
                     _dte.StatusBar.Text = e.Result.Text;
                 else
-                    _dte.StatusBar.Text = "Sorry, " + e.Result.Text + " is not available";
+                    _dte.StatusBar.Text = e.Result.Text + " is not available in this context";
+            }
+            else if (e.Result != null)
+            {
+                _dte.StatusBar.Text = "Please repeat. I didn't quite understand";
             }
             else
             {
-                _dte.StatusBar.Text = "Please repeat. I didn't understand.";
+                _dte.StatusBar.Clear();
             }
-
-            _rec.RecognizeAsyncStop();
         }
 
         private void BuildCommandList()
