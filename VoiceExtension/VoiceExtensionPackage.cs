@@ -1,7 +1,6 @@
 ﻿using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
 using System.Linq;
@@ -14,11 +13,9 @@ namespace MadsKristensen.VoiceExtension
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(GuidList.guidVoiceExtensionPkgString)]
-    [ProvideAutoLoad(UIContextGuids80.EmptySolution)]
-    [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     public sealed class VoiceExtensionPackage : Package
     {
-        private const float _confidence = 0.87F;
+        private const float _confidence = 0.8F;
 
         private DTE2 _dte;
         private SpeechRecognitionEngine _rec;
@@ -42,7 +39,9 @@ namespace MadsKristensen.VoiceExtension
 
         private void OnListening(object sender, EventArgs e)
         {
+            _rec.RecognizeAsyncStop();
             _rec.RecognizeAsync();
+
             _dte.StatusBar.Text = "I'm listening...";
             _dte.StatusBar.Highlight(true);
         }
@@ -67,27 +66,38 @@ namespace MadsKristensen.VoiceExtension
 
             if (e.Result != null && e.Result.Confidence > _confidence && Cache.Commands.ContainsKey(e.Result.Text))
             {
-                if (TryExecuteCommand(Cache.Commands[e.Result.Text]))
-                    _dte.StatusBar.Text = e.Result.Text;
-                else
+                if (!TryExecuteCommand(Cache.Commands[e.Result.Text], e.Result.Text))
                     _dte.StatusBar.Text = e.Result.Text + " is not available in this context";
-            }
-            else if (e.Result != null)
-            {
-                _dte.StatusBar.Text = "Please repeat. I didn't quite understand";
             }
             else
             {
-                _dte.StatusBar.Clear();
+                _dte.StatusBar.Text = "I didn't quite get that. Please try again";
             }
         }
 
-        private bool TryExecuteCommand(string commandName)
+        private bool TryExecuteCommand(string commandName, string displayName)
         {
             var command = _dte.Commands.Item(commandName);
 
             if (command.IsAvailable)
+            {
                 _dte.ExecuteCommand(command.Name);
+
+                int index = -1;
+                var bindings = ((object[])command.Bindings).LastOrDefault();
+                string keys = string.Empty;
+
+                if (bindings != null)
+                {
+                    keys = bindings.ToString();
+                    index = keys.IndexOf(':') + 2;
+                }
+
+                if (index > 1)
+                    _dte.StatusBar.Text = displayName + " (" + keys.Substring(index) + ")";
+                else
+                    _dte.StatusBar.Text = displayName;
+            }
 
             return command.IsAvailable;
         }

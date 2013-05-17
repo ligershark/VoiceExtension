@@ -56,6 +56,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Speech" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">
@@ -162,6 +163,9 @@
     </Content>
     <Content Include="preview.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\commands.txt">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\icon.png">

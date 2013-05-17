@@ -1,6 +1,9 @@
 ﻿using EnvDTE;
 using EnvDTE80;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace MadsKristensen.VoiceExtension
 {
@@ -12,23 +15,61 @@ namespace MadsKristensen.VoiceExtension
         {
             Commands = new Dictionary<string, string>();
 
-            foreach (Command cmd in dte.Commands)
+            string folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string file = Path.Combine(folder, "resources", "commands.txt");
+
+            using (StreamReader reader = new StreamReader(file))
             {
-                string name = cmd.Name.Substring(cmd.Name.LastIndexOf('.') + 1);
-                string final = string.Empty;
+                string[] lines = reader.ReadToEnd().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-                for (int i = name.Length - 1; i > -1; i--)
+                foreach (string line in lines)
                 {
-                    final = final.Insert(0, name[i].ToString());
+                    if (line.StartsWith("#"))
+                        continue;
 
-                    if (i > 0 && char.IsUpper(name[i]))
-                    {
-                        final = final.Insert(0, " ");
-                    }
+                    string[] args = line.Split('|');
+
+                    if (args.Length == 2)
+                        AddCommand(args[1], args[0]);
                 }
+            }
 
-                if (!string.IsNullOrEmpty(final) && !Commands.ContainsKey(final))
-                    Commands.Add(final, cmd.Name);
+            //foreach (Command cmd in dte.Commands)
+            //{
+            //    string name = cmd.Name.Substring(cmd.Name.LastIndexOf('.') + 1);
+            //    string realName = string.Empty;
+
+            //    for (int i = name.Length - 1; i > -1; i--)
+            //    {
+            //        realName = realName.Insert(0, name[i].ToString());
+
+            //        if (i > 0 && char.IsUpper(name[i]))
+            //        {
+            //            realName = realName.Insert(0, " ");
+            //        }
+            //    }
+
+            //    //AddCommand(cmd, realName);
+            //}
+
+            //using (var fr = new System.IO.StreamWriter("c:\\users\\madsk\\commands.txt"))
+            //{
+            //    foreach (string key in Commands.Keys)
+            //    {
+            //        fr.WriteLine(key + "|" + Commands[key]);
+            //    }
+            //}
+        }
+
+        private static void AddCommand(string commandName, string realName)
+        {
+            string clean = realName
+                            .Replace("\"", string.Empty)
+                            .Replace("'", string.Empty);
+
+            if (!string.IsNullOrEmpty(clean) && !Commands.ContainsKey(clean))
+            {
+                Commands.Add(clean, commandName);
             }
         }
     }
