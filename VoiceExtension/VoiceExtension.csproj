@@ -114,6 +114,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -147,6 +148,7 @@
   <ItemGroup>
     <VSCTCompile Include="VoiceExtension.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
