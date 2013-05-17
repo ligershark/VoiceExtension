@@ -3,6 +3,7 @@ using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Speech.Recognition;
@@ -101,7 +102,7 @@ namespace MadsKristensen.VoiceExtension
             {
                 using (var process = new System.Diagnostics.Process())
                 {
-                    process.StartInfo = new System.Diagnostics.ProcessStartInfo("http://windows.microsoft.com/en-US/windows-8/using-speech-recognition/");
+                    process.StartInfo = new ProcessStartInfo("http://windows.microsoft.com/en-US/windows-8/using-speech-recognition/");
                     process.Start();
                 }
             }
@@ -118,7 +119,7 @@ namespace MadsKristensen.VoiceExtension
                     _dte.ExecuteCommand(command.Name);
 
                     int index = -1;
-                    var bindings = ((object[])command.Bindings).LastOrDefault();
+                    var bindings = ((object[])command.Bindings).FirstOrDefault();
                     string keys = string.Empty;
 
                     if (bindings != null)
