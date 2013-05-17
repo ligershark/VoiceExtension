@@ -18,19 +18,22 @@ namespace MadsKristensen.VoiceExtension
             string folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string file = Path.Combine(folder, "resources", "commands.txt");
 
-            using (StreamReader reader = new StreamReader(file))
+            if (File.Exists(file))
             {
-                string[] lines = reader.ReadToEnd().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string line in lines)
+                using (StreamReader reader = new StreamReader(file))
                 {
-                    if (line.StartsWith("#"))
-                        continue;
+                    string[] lines = reader.ReadToEnd().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-                    string[] args = line.Split('|');
+                    foreach (string line in lines)
+                    {
+                        if (line.StartsWith("#"))
+                            continue;
 
-                    if (args.Length == 2)
-                        AddCommand(args[1], args[0]);
+                        string[] args = line.Split('|');
+
+                        if (args.Length == 2)
+                            AddCommand(args[1], args[0]);
+                    }
                 }
             }
 

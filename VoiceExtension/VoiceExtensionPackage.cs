@@ -6,6 +6,7 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Speech.Recognition;
+using System.Windows.Forms;
 
 namespace MadsKristensen.VoiceExtension
 {
@@ -19,6 +20,7 @@ namespace MadsKristensen.VoiceExtension
 
         private DTE2 _dte;
         private SpeechRecognitionEngine _rec;
+        private bool _isEnabled;
 
         protected override void Initialize()
         {
@@ -39,35 +41,51 @@ namespace MadsKristensen.VoiceExtension
 
         private void OnListening(object sender, EventArgs e)
         {
-            _rec.RecognizeAsyncStop();
-            _rec.RecognizeAsync();
+            if (_isEnabled)
+            {
+                _rec.RecognizeAsyncStop();
+                _rec.RecognizeAsync();
 
-            _dte.StatusBar.Text = "I'm listening...";
-            _dte.StatusBar.Highlight(true);
+                _dte.StatusBar.Text = "I'm listening...";
+                _dte.StatusBar.Highlight(true);
+            }
+            else
+            {
+                SetupVoiceRecognition();
+            }
         }
 
         private void InitializeSpeechRecognition()
         {
-            var c = new Choices(Cache.Commands.Keys.ToArray());
-            var gb = new GrammarBuilder(c);
-            var g = new Grammar(gb);
+            try
+            {
+                var c = new Choices(Cache.Commands.Keys.ToArray());
+                var gb = new GrammarBuilder(c);
+                var g = new Grammar(gb);
 
-            _rec = new SpeechRecognitionEngine();
-            _rec.RecognizeCompleted += OnRecognizeCompleted;
-            _rec.InitialSilenceTimeout = TimeSpan.FromSeconds(3);
+                _rec = new SpeechRecognitionEngine();
+                _rec.RecognizeCompleted += OnRecognizeCompleted;
+                _rec.InitialSilenceTimeout = TimeSpan.FromSeconds(3);
 
-            _rec.LoadGrammar(g);
-            _rec.SetInputToDefaultAudioDevice();
+                _rec.LoadGrammar(g);
+                _rec.SetInputToDefaultAudioDevice();
+
+                _isEnabled = true;
+            }
+            catch
+            { }
         }
 
         private void OnRecognizeCompleted(object sender, RecognizeCompletedEventArgs e)
         {
             _rec.RecognizeAsyncStop();
 
-            if (e.Result != null && e.Result.Confidence > _confidence && Cache.Commands.ContainsKey(e.Result.Text))
+            if (e.Result != null && e.Result.Confidence > _confidence)
             {
-                if (!TryExecuteCommand(Cache.Commands[e.Result.Text], e.Result.Text))
-                    _dte.StatusBar.Text = e.Result.Text + " is not available in this context";
+                string text = e.Result.Text;
+
+                if (Cache.Commands.ContainsKey(text) && !TryExecuteCommand(Cache.Commands[text], text))
+                    _dte.StatusBar.Text = text + " is not available in this context";
             }
             else
             {
@@ -75,31 +93,52 @@ namespace MadsKristensen.VoiceExtension
             }
         }
 
+        private static void SetupVoiceRecognition()
+        {
+            string message = "Do you want to learn how to setup voice recognition in Windows?";
+
+            if (MessageBox.Show(message, "Voice Commands", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                using (var process = new System.Diagnostics.Process())
+                {
+                    process.StartInfo = new System.Diagnostics.ProcessStartInfo("http://windows.microsoft.com/en-US/windows-8/using-speech-recognition/");
+                    process.Start();
+                }
+            }
+        }
+
         private bool TryExecuteCommand(string commandName, string displayName)
         {
-            var command = _dte.Commands.Item(commandName);
-
-            if (command.IsAvailable)
+            try
             {
-                _dte.ExecuteCommand(command.Name);
+                var command = _dte.Commands.Item(commandName);
 
-                int index = -1;
-                var bindings = ((object[])command.Bindings).LastOrDefault();
-                string keys = string.Empty;
-
-                if (bindings != null)
+                if (command.IsAvailable)
                 {
-                    keys = bindings.ToString();
-                    index = keys.IndexOf(':') + 2;
+                    _dte.ExecuteCommand(command.Name);
+
+                    int index = -1;
+                    var bindings = ((object[])command.Bindings).LastOrDefault();
+                    string keys = string.Empty;
+
+                    if (bindings != null)
+                    {
+                        keys = bindings.ToString();
+                        index = keys.IndexOf(':') + 2;
+                    }
+
+                    if (index > 1)
+                        _dte.StatusBar.Text = displayName + " (" + keys.Substring(index) + ")";
+                    else
+                        _dte.StatusBar.Text = displayName;
+
+                    return true;
                 }
-
-                if (index > 1)
-                    _dte.StatusBar.Text = displayName + " (" + keys.Substring(index) + ")";
-                else
-                    _dte.StatusBar.Text = displayName;
             }
+            catch
+            { }
 
-            return command.IsAvailable;
+            return false;
         }
     }
 }
