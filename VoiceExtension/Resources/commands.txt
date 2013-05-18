@@ -1,3 +1,4 @@
+bank|ost
 Next Error|View.NextError
 Previous Error|View.PreviousError
 Next Task|View.NextTask
@@ -178,7 +179,7 @@ Add Remove Toolbox Items|Tools.AddRemoveToolboxItems
 Reset Toolbox|Tools.ResetToolbox
 Save Selected Items|File.SaveSelectedItems
 View Designer|View.ViewDesigner
-Viewin Browser|File.ViewinBrowser
+View In Browser|File.ViewinBrowser
 Browse With|File.BrowseWith
 Edit Label|View.EditLabel
 Exceptions|Debug.Exceptions
@@ -1163,7 +1164,7 @@ Import|OtherContextMenus.ResourceView.Import
 #View Code Gen File|View.ViewCodeGenFile
 #Convertto Web Application|ClassViewContextMenus.ClassViewProject.ConverttoWebApplication
 #Openin Blend|View.OpeninBlend
-#Add View|EditorContextMenus.CodeWindow.AddView
+Add View|EditorContextMenus.CodeWindow.AddView
 #View|ProjectandSolutionContextMenus.Project.Add.View
 #Controller|ProjectandSolutionContextMenus.Project.Add.Controller
 #Area|ProjectandSolutionContextMenus.Project.Add.Area
