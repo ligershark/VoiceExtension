@@ -209,7 +209,7 @@ Reload Project|Project.ReloadProject
 Unload Project|Project.UnloadProject
 Select Project Template|File.SelectProjectTemplate
 No Commands Available|OtherContextMenus.NoCommandsAvailable.NoCommandsAvailable
-Alias|Tools.Alias
+#Alias|Tools.Alias
 Go To Command Line|Tools.GoToCommandLine
 Immediate Mode|Tools.ImmediateMode
 Evaluate Statement|Debug.EvaluateStatement
