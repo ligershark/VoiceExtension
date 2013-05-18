@@ -30,11 +30,11 @@ Paste|Edit.Paste
 Print|File.Print
 Redo|Edit.Redo
 Select All|Edit.SelectAll
-Sendto Back|Format.SendtoBack
+Send to Back|Format.SendtoBack
 Make Same Size|Format.MakeSameSize
 Make Same Height|Format.MakeSameHeight
 Make Same Width|Format.MakeSameWidth
-Sizeto Grid|Format.SizetoGrid
+Size to Grid|Format.SizetoGrid
 Tab Order|View.TabOrder
 Toolbox|View.Toolbox
 Undo|Edit.Undo
@@ -211,8 +211,8 @@ Alias|Tools.Alias
 Go To Command Line|Tools.GoToCommandLine
 Immediate Mode|Tools.ImmediateMode
 Evaluate Statement|Debug.EvaluateStatement
-Find Results1|View.FindResults1
-Find Results2|View.FindResults2
+#Find Results1|View.FindResults1
+#Find Results2|View.FindResults2
 Windows|Window.Windows
 Auto Hide All|Window.AutoHideAll
 Class View|View.ClassView
@@ -1616,8 +1616,8 @@ Collapse|Workflow.Collapse
 Create New Theme|Workflow.CreateNewTheme
 Select Custom Theme|Workflow.SelectCustomTheme
 Show Execution State|Workflow.ShowExecutionState
-400|Workflow.400
-300|Workflow.300
+#400|Workflow.400
+#300|Workflow.300
 Default View|OtherContextMenus.PageLayout.DefaultView
 Navigation Tool|Workflow.NavigationTool
 Default|Workflow.Default
@@ -2466,13 +2466,13 @@ Chart Data|Report.ChartData
 Run|ProjectandSolutionContextMenus.Item.Run
 Simple Column|OtherContextMenus.Selection.ChartType.Column.SimpleColumn
 Stacked Column|OtherContextMenus.Selection.ChartType.Column.StackedColumn
-100 Stacked Column|OtherContextMenus.Selection.ChartType.Column.100StackedColumn
+#100 Stacked Column|OtherContextMenus.Selection.ChartType.Column.100StackedColumn
 Simple Bar|OtherContextMenus.Selection.ChartType.Bar.SimpleBar
 Stacked Bar|OtherContextMenus.Selection.ChartType.Bar.StackedBar
-100 Stacked Bar|OtherContextMenus.Selection.ChartType.Bar.100StackedBar
+#100 Stacked Bar|OtherContextMenus.Selection.ChartType.Bar.100StackedBar
 Simple Area|OtherContextMenus.Selection.ChartType.Area.SimpleArea
 Stacked Area|OtherContextMenus.Selection.ChartType.Area.StackedArea
-100 Stacked Area|OtherContextMenus.Selection.ChartType.Area.100StackedArea
+#100 Stacked Area|OtherContextMenus.Selection.ChartType.Area.100StackedArea
 Simple Line|OtherContextMenus.Selection.ChartType.Line.SimpleLine
 Smooth Line|OtherContextMenus.Selection.ChartType.Line.SmoothLine
 Simple Pie|OtherContextMenus.Selection.ChartType.Pie.SimplePie

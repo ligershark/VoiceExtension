@@ -17,12 +17,12 @@ namespace MadsKristensen.VoiceExtension
     [Guid(GuidList.guidVoiceExtensionPkgString)]
     public sealed class VoiceExtensionPackage : Package
     {
-        private const float _confidence = 0.80F;
+        private const float _minConfidence = 0.80F; // A value between 0 and 1
 
         private DTE2 _dte;
         private CommandTable _cache;
         private SpeechRecognitionEngine _rec;
-        private bool _isEnabled;
+        private bool _isEnabled, _isListening;
 
         protected override void Initialize()
         {
@@ -55,35 +55,34 @@ namespace MadsKristensen.VoiceExtension
 
                 _isEnabled = true;
             }
-            catch
-            { }
+            catch { /* Speech Recognition hasn't been enabled on Windows */ }
         }
 
         private void OnListening(object sender, EventArgs e)
         {
-            if (_isEnabled)
-            {
-                _rec.RecognizeAsyncStop();
-                _rec.RecognizeAsync();
-
-                _dte.StatusBar.Text = "I'm listening...";
-            }
-            else
+            if (!_isEnabled)
             {
                 SetupVoiceRecognition();
+            }
+            else if (!_isListening)
+            {
+                _isListening = true;
+                _rec.RecognizeAsync();
+                _dte.StatusBar.Text = "I'm listening...";
             }
         }
 
         private void OnSpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)
         {
-            _dte.StatusBar.Text = "I'm listening... (" + e.Result.Text + " " + Math.Round(e.Result.Confidence * 100, 0) + "%)";
+            _dte.StatusBar.Text = "I'm listening... (" + e.Result.Text + " " + Math.Round(e.Result.Confidence * 100) + "%)";
         }
 
         private void OnSpeechRecognized(object sender, RecognizeCompletedEventArgs e)
         {
             _rec.RecognizeAsyncStop();
+            _isListening = false;
 
-            if (e.Result != null && e.Result.Confidence > _confidence)
+            if (e.Result != null && e.Result.Confidence > _minConfidence)
             {
                 _cache.ExecuteCommand(e.Result.Text);
             }
