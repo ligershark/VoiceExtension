@@ -14,11 +14,10 @@ namespace MadsKristensen.VoiceExtension
         public CommandTable(DTE2 dte)
         {
             _dte = dte;
-
             BuildCommandTable();
         }
 
-        public Dictionary<string, Command> Commands { get; set; }
+        public Dictionary<string, Command> Commands { get; private set; }
 
         private void BuildCommandTable()
         {
