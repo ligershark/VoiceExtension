@@ -21,7 +21,7 @@ namespace MadsKristensen.VoiceExtension
 
         private void BuildCommandTable()
         {
-            Commands = new Dictionary<string, Command>();
+            Commands = new Dictionary<string, Command>() { { "yes", null }, { "no", null } };
 
             string folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string file = Path.Combine(folder, "resources", "commands.txt");
@@ -93,7 +93,7 @@ namespace MadsKristensen.VoiceExtension
         {
             var command = Commands[displayName];
 
-            if (command.IsAvailable)
+            if (command != null && command.IsAvailable)
             {
                 _dte.ExecuteCommand(command.Name);
                 DisplayKeyBindings(displayName, command);

@@ -23,6 +23,7 @@ namespace MadsKristensen.VoiceExtension
         private CommandTable _cache;
         private SpeechRecognitionEngine _rec;
         private bool _isEnabled, _isListening;
+        private string _rejected;
 
         protected override void Initialize()
         {
@@ -48,6 +49,7 @@ namespace MadsKristensen.VoiceExtension
                 _rec = new SpeechRecognitionEngine();
                 _rec.InitialSilenceTimeout = TimeSpan.FromSeconds(3);
                 _rec.SpeechHypothesized += OnSpeechHypothesized;
+                _rec.SpeechRecognitionRejected += OnSpeechRecognitionRejected;
                 _rec.RecognizeCompleted += OnSpeechRecognized;
 
                 _rec.LoadGrammarAsync(g);
@@ -74,7 +76,17 @@ namespace MadsKristensen.VoiceExtension
 
         private void OnSpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)
         {
-            _dte.StatusBar.Text = "I'm listening... (" + e.Result.Text + " " + Math.Round(e.Result.Confidence * 100) + "%)";
+            if (string.IsNullOrEmpty(_rejected))
+                _dte.StatusBar.Text = "I'm listening... (" + e.Result.Text + " " + Math.Round(e.Result.Confidence * 100) + "%)";
+        }
+
+        private void OnSpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        {
+            if (e.Result.Text != "yes" && e.Result.Confidence > 0.5F)
+            {
+                _rejected = e.Result.Text;
+                _dte.StatusBar.Text = "Did you mean " + e.Result.Text + "? (say yes or no)";
+            }
         }
 
         private void OnSpeechRecognized(object sender, RecognizeCompletedEventArgs e)
@@ -82,13 +94,30 @@ namespace MadsKristensen.VoiceExtension
             _rec.RecognizeAsyncStop();
             _isListening = false;
 
-            if (e.Result != null && e.Result.Confidence > _minConfidence)
-            {
+            if (e.Result != null && !string.IsNullOrEmpty(_rejected))
+            { // Handle answer to precision question
+                _dte.StatusBar.Clear();
+
+                if (e.Result.Text == "yes")
+                    _cache.ExecuteCommand(_rejected);
+
+                _rejected = null;
+            }
+            else if (e.Result != null && e.Result.Confidence > _minConfidence)
+            { // Speech matches a command
                 _cache.ExecuteCommand(e.Result.Text);
             }
-            else
-            {
+            else if (string.IsNullOrEmpty(_rejected))
+            { // Speech didn't match a command
                 _dte.StatusBar.Text = "I didn't quite get that. Please try again.";
+            }
+            else if (e.Result == null && !string.IsNullOrEmpty(_rejected) && !e.InitialSilenceTimeout)
+            { // Keep listening when asked about rejected speech
+                _rec.RecognizeAsync();
+            }
+            else
+            { // No match or timeout
+                _dte.StatusBar.Clear();
             }
         }
 

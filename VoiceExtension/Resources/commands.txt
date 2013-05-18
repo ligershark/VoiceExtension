@@ -100,6 +100,7 @@ Open File|File.OpenFile
 Close|File.Close
 Save All|File.SaveAll
 Save Selected Items As|File.SaveSelectedItemsAs
+Save As|File.SaveSelectedItemsAs
 Page Setup|File.PageSetup
 Print Preview|File.PrintPreview
 Exit|File.Exit
@@ -182,6 +183,7 @@ Samples|Help.Samples
 Add Remove Toolbox Items|Tools.AddRemoveToolboxItems
 Reset Toolbox|Tools.ResetToolbox
 Save Selected Items|File.SaveSelectedItems
+Save|File.SaveSelectedItems
 View Designer|View.ViewDesigner
 View In Browser|File.ViewinBrowser
 Browse With|File.BrowseWith
