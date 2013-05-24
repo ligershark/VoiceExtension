@@ -103,6 +103,11 @@ namespace MadsKristensen.VoiceExtension
 
                 _rejected = null;
             }
+            else if (e.Result != null && e.Result.Text == "what can I say")
+            {// Show link to command list
+                System.Diagnostics.Process.Start("https://raw.github.com/ligershark/VoiceExtension/master/VoiceExtension/Resources/commands.txt");
+                _dte.StatusBar.Clear();
+            }
             else if (e.Result != null && e.Result.Confidence > _minConfidence)
             { // Speech matches a command
                 _cache.ExecuteCommand(e.Result.Text);

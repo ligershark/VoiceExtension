@@ -27,7 +27,7 @@
   </Commands>
 
   <KeyBindings>
-    <KeyBinding guid="guidVoiceExtensionCmdSet" id="cmdidMyCommand" mod1="Alt" key1="VK_F1" editor="guidVSStd97"/>
+    <KeyBinding guid="guidVoiceExtensionCmdSet" id="cmdidMyCommand" mod1="Alt" key1="v" editor="guidVSStd97"/>
   </KeyBindings>
 
   <Symbols>

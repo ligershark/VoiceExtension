@@ -21,7 +21,7 @@ namespace MadsKristensen.VoiceExtension
 
         private void BuildCommandTable()
         {
-            Commands = new Dictionary<string, Command>() { { "yes", null }, { "no", null } };
+            Commands = new Dictionary<string, Command>() { { "yes", null }, { "no", null }, { "what can I say", null } };
 
             string folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string file = Path.Combine(folder, "resources", "commands.txt");
