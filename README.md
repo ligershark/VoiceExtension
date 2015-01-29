@@ -1,8 +1,8 @@
-# Voice Commands for Visual Studio 2012 #
+# Voice Commands for Visual Studio #
+
+[![Build status](https://ci.appveyor.com/api/projects/status/rc6qkpbn7jvo2ck2?svg=true)](https://ci.appveyor.com/project/madskristensen/voiceextension)
 
 Control Visual Studio using your voice
-  
-To open the solution (VoiceExtension.sln), you need to download the [Visual Studio 2012 SDK](http://www.microsoft.com/en-us/download/details.aspx?id=30668)
 
 ----------------
 
