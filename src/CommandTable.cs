@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -9,7 +10,7 @@ namespace MadsKristensen.VoiceExtension
 {
     internal class CommandTable
     {
-        private DTE2 _dte;
+        private readonly DTE2 _dte;
 
         public CommandTable(DTE2 dte)
         {
@@ -21,7 +22,7 @@ namespace MadsKristensen.VoiceExtension
 
         private void BuildCommandTable()
         {
-            Commands = new Dictionary<string, Command>() { { "yes", null }, { "no", null }, { "what can I say", null } };
+            Commands = new Dictionary<string, Command> { { "yes", null }, { "no", null }, { "what can I say", null } };
 
             string folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string file = Path.Combine(folder, "resources", "commands.txt");
@@ -32,7 +33,7 @@ namespace MadsKristensen.VoiceExtension
 
                 foreach (string line in lines)
                 {
-                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#"))
+                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#", StringComparison.Ordinal))
                         continue;
 
                     string[] args = line.Split('|');
@@ -85,12 +86,18 @@ namespace MadsKristensen.VoiceExtension
                     var command = _dte.Commands.Item(commandName);
                     Commands.Add(clean, command);
                 }
-                catch { /* The command doesn't exist in the installed version of VS */ }
+                catch (Exception ex)
+                {
+                    Logger.Log(ex);
+                }
             }
         }
 
         public void ExecuteCommand(string displayName)
         {
+            if (!Commands.ContainsKey(displayName))
+                return;
+
             var command = Commands[displayName];
 
             if (command != null && command.IsAvailable)

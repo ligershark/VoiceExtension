@@ -16,6 +16,7 @@ local.properties
 .settings/
 .loadpath
 .vs
+packages
 
 # External tool builders
 .externalToolBuilders/
