@@ -18,11 +18,11 @@ namespace MadsKristensen.VoiceExtension
             BuildCommandTable();
         }
 
-        public Dictionary<string, Command> Commands { get; private set; }
+        public Dictionary<string, string> Commands { get; private set; }
 
         private void BuildCommandTable()
         {
-            Commands = new Dictionary<string, Command> { { "yes", null }, { "no", null }, { "what can I say", null } };
+            Commands = new Dictionary<string, string> { { "yes", null }, { "no", null }, { "what can I say", null } };
 
             string folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string file = Path.Combine(folder, "resources", "commands.txt");
@@ -84,7 +84,7 @@ namespace MadsKristensen.VoiceExtension
                 try
                 {
                     var command = _dte.Commands.Item(commandName);
-                    Commands.Add(clean, command);
+                    Commands.Add(clean, commandName);
                 }
                 catch (Exception ex)
                 {
@@ -98,7 +98,8 @@ namespace MadsKristensen.VoiceExtension
             if (!Commands.ContainsKey(displayName))
                 return;
 
-            var command = Commands[displayName];
+            var realName = Commands[displayName];
+            var command = _dte.Commands.Item(realName);
 
             if (command != null && command.IsAvailable)
             {

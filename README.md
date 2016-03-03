@@ -9,8 +9,12 @@ or get the
 
 ----------------------
 
-Voice Command let's you control Visual Studio using your own voice and high accuracy. Here's how to use it:
+Voice Command let's you control Visual Studio using your own
+voice and high accuracy.
 
+Here's how to use it:
+
+![Menu](art/menu.png)
 
 1. Hit `Alt+V` (or go to Tools -> Start Listening)
 2. Say the name of a command. Examples:
@@ -22,9 +26,19 @@ Voice Command let's you control Visual Studio using your own voice and high accu
  - See  full list of [available voice commands](https://raw.github.com/ligershark/VoiceExtension/master/VoiceExtension/Resources/commands.txt)
  - See the list by saying What can I say?
 
-
 That's it. It's that simple.
 
 ## How it works
 
-Under the hood, Voice Commands uses Windows Speech API to handle the voice recognition. The Windows Speech Api is part of Windows and can be accessed by adding a reference to System.Speech.
+Under the hood, Voice Commands uses Windows Speech API to
+handle the voice recognition. The Windows Speech API is part
+of Windows and can be accessed by adding a reference to
+`System.Speech`.
+
+### Calibrate the speech recognition
+Since this extension uses the Windows speech APIs,
+you can train Windows to better understand your particular
+speech patterns.
+
+See the videos and tutorial on
+[how to use Speech Recognition](http://windows.microsoft.com/en-US/windows-8/using-speech-recognition/).

@@ -148,6 +148,7 @@ namespace MadsKristensen.VoiceExtension
             }
             catch (Exception ex)
             {
+                _dte.StatusBar.Clear();
                 Logger.Log(ex);
             }
         }
