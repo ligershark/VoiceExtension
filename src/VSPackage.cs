@@ -15,7 +15,7 @@ namespace MadsKristensen.VoiceExtension
     [InstalledProductRegistration("#110", "#112", Vsix.Version, IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(PackageGuids.guidVoiceExtensionPkgString)]
-    public sealed class VoiceExtensionPackage : Package
+    public sealed class VSPackage : Package
     {
         private const float _minConfidence = 0.80F; // A value between 0 and 1
 

@@ -134,7 +134,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VoiceExtension.vsct</DependentUpon>
     </Compile>
-    <Compile Include="VoiceExtensionPackage.cs" />
+    <Compile Include="VSPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
