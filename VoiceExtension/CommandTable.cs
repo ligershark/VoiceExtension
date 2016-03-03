@@ -1,9 +1,9 @@
-﻿using EnvDTE;
-using EnvDTE80;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using EnvDTE;
+using EnvDTE80;
 
 namespace MadsKristensen.VoiceExtension
 {

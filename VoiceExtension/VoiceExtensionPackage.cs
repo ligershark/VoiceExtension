@@ -1,20 +1,20 @@
-﻿using EnvDTE;
-using EnvDTE80;
-using Microsoft.VisualStudio.Shell;
-using System;
+﻿using System;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Speech.Recognition;
 using System.Windows.Forms;
+using EnvDTE;
+using EnvDTE80;
+using Microsoft.VisualStudio.Shell;
 
 namespace MadsKristensen.VoiceExtension
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", Vsix.Version, IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [Guid(GuidList.guidVoiceExtensionPkgString)]
+    [Guid(PackageGuids.guidVoiceExtensionPkgString)]
     public sealed class VoiceExtensionPackage : Package
     {
         private const float _minConfidence = 0.80F; // A value between 0 and 1
@@ -33,7 +33,7 @@ namespace MadsKristensen.VoiceExtension
 
             // Setup listening command
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            CommandID cmd = new CommandID(GuidList.guidVoiceExtensionCmdSet, (int)PkgCmdIDList.cmdidMyCommand);
+            CommandID cmd = new CommandID(PackageGuids.guidVoiceExtensionCmdSet, PackageIds.cmdidMyCommand);
             MenuCommand menu = new MenuCommand(OnListening, cmd);
             mcs.AddCommand(menu);
         }
@@ -130,7 +130,7 @@ namespace MadsKristensen.VoiceExtension
         {
             string message = "Do you want to learn how to setup voice recognition in Windows?";
 
-            if (MessageBox.Show(message, "Voice Commands for Visual Studio", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show(message, Vsix.Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 using (var process = new System.Diagnostics.Process())
                 {
