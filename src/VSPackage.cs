@@ -121,7 +121,7 @@ namespace MadsKristensen.VoiceExtension
                 }
                 else if (e.Result != null && e.Result.Text == "what can I say")
                 {// Show link to command list
-                    System.Diagnostics.Process.Start("https://raw.github.com/ligershark/VoiceExtension/master/VoiceExtension/Resources/commands.txt");
+                    System.Diagnostics.Process.Start("https://github.com/ligershark/VoiceExtension/blob/master/src/Resources/commands.txt");
                     _dte.StatusBar.Clear();
                     Telemetry.TrackEvent("Show command list");
                 }
