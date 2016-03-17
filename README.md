@@ -23,7 +23,7 @@ Here's how to use it:
  - Solution Explorer
  - New Project
  - Options
- - See  full list of [available voice commands](https://raw.github.com/ligershark/VoiceExtension/master/VoiceExtension/Resources/commands.txt)
+ - See  full list of [available voice commands](https://github.com/ligershark/VoiceExtension/blob/master/src/Resources/commands.txt)
  - See the list by saying What can I say?
 
 That's it. It's that simple.
