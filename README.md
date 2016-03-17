@@ -12,9 +12,11 @@ or get the
 Voice Command let's you control Visual Studio using your own
 voice and high accuracy.
 
-**Demo video** (3:19)
+**Demo video**
 
-[![Voice Commands demo](https://img.youtube.com/vi/Zo7o9tDigC4/0.jpg)](https://www.youtube.com/watch?v=Zo7o9tDigC4)
+[![Voice Commands demo](http://img.youtube.com/vi/Zo7o9tDigC4/mqdefault.jpg)](https://www.youtube.com/watch?v=Zo7o9tDigC4)
+
+[Play video](https://www.youtube.com/watch?v=Zo7o9tDigC4) _(3:19)_
 
 Here's how to use it:
 
