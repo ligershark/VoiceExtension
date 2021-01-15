@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,22 +25,26 @@ namespace MadsKristensen.VoiceExtension
         {
             Commands = new Dictionary<string, string> { { "yes", null }, { "no", null }, { "what can I say", null } };
 
-            string folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string file = Path.Combine(folder, "resources", "commands.txt");
+            var folder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var file = Path.Combine(folder, "resources", "commands.txt");
 
             if (File.Exists(file))
             {
-                string[] lines = File.ReadAllLines(file);
+                var lines = File.ReadAllLines(file);
 
-                foreach (string line in lines)
+                foreach (var line in lines)
                 {
                     if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#", StringComparison.Ordinal))
+                    {
                         continue;
+                    }
 
-                    string[] args = line.Split('|');
+                    var args = line.Split('|');
 
                     if (args.Length == 2)
+                    {
                         AddCommand(args[1], args[0]);
+                    }
                 }
             }
         }
@@ -75,7 +80,8 @@ namespace MadsKristensen.VoiceExtension
 
         private void AddCommand(string commandName, string realName)
         {
-            string clean = realName
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            var clean = realName
                             .Replace("\"", string.Empty)
                             .Replace("'", string.Empty);
 
@@ -83,12 +89,12 @@ namespace MadsKristensen.VoiceExtension
             {
                 try
                 {
-                    var command = _dte.Commands.Item(commandName);
+                    Command command = _dte.Commands.Item(commandName);
                     Commands.Add(clean, commandName);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log(ex);
+                    Trace.Write(ex.ToString());
                 }
             }
         }
@@ -96,10 +102,12 @@ namespace MadsKristensen.VoiceExtension
         public void ExecuteCommand(string displayName)
         {
             if (!Commands.ContainsKey(displayName))
+            {
                 return;
+            }
 
             var realName = Commands[displayName];
-            var command = _dte.Commands.Item(realName);
+            Command command = _dte.Commands.Item(realName);
 
             if (command != null && command.IsAvailable)
             {
@@ -119,7 +127,7 @@ namespace MadsKristensen.VoiceExtension
 
             if (!string.IsNullOrEmpty(bindings))
             {
-                int index = bindings.IndexOf(':') + 2;
+                var index = bindings.IndexOf(':') + 2;
                 _dte.StatusBar.Text += " (" + bindings.Substring(index) + ")";
             }
         }

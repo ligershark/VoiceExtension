@@ -3,6 +3,7 @@
 
   <Extern href="stdidcmd.h"/>
   <Extern href="vsshlids.h"/>
+  <Include href="KnownImageIds.vsct"/>
 
   <Commands package="guidVoiceExtensionPkg">
     <Groups>
@@ -14,16 +15,13 @@
     <Buttons>
       <Button guid="guidVoiceExtensionCmdSet" id="cmdidMyCommand" priority="0x0100" type="Button">
         <Parent guid="guidVoiceExtensionCmdSet" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="icon" />
+        <Icon guid="ImageCatalogGuid" id="MicrophoneTalking" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
           <ButtonText>Start Listening</ButtonText>
         </Strings>
       </Button>
     </Buttons>
-   
-    <Bitmaps>
-      <Bitmap guid="guidImages" href="Resources\icon.png" usedList="icon"/>
-    </Bitmaps>
   </Commands>
 
   <KeyBindings>
@@ -36,10 +34,6 @@
     <GuidSymbol name="guidVoiceExtensionCmdSet" value="{9ae4e318-bbcc-41c1-a880-e64ac747659b}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="cmdidMyCommand" value="0x0100" />
-    </GuidSymbol>
-
-    <GuidSymbol name="guidImages" value="{7f0cf8f2-9680-4746-ac3d-647d4019dd85}" >
-      <IDSymbol name="icon" value="1" />
     </GuidSymbol>
   </Symbols>
 

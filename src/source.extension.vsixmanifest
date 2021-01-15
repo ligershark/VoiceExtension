@@ -8,7 +8,7 @@
         <License>Resources\LICENSE</License>
         <GettingStartedGuide>http://visualstudiogallery.msdn.microsoft.com/ce35c120-405a-435b-af2a-52ff24eb2c30</GettingStartedGuide>
         <Icon>resources/logo.png</Icon>
-        <PreviewImage>resources/preview.png</PreviewImage>
+        <PreviewImage>Resources\logo.png</PreviewImage>
         <Tags>voice, speech, speak</Tags>
     </Metadata>
     <Installation InstalledByMsi="false">
