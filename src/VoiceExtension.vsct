@@ -15,7 +15,7 @@
     <Buttons>
       <Button guid="guidVoiceExtensionCmdSet" id="cmdidMyCommand" priority="0x0100" type="Button">
         <Parent guid="guidVoiceExtensionCmdSet" id="MyMenuGroup" />
-        <Icon guid="ImageCatalogGuid" id="MicrophoneTalking" />
+        <Icon guid="ImageCatalogGuid" id="CalloutRectangle" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
           <ButtonText>Start Listening</ButtonText>
