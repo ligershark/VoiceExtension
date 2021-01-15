@@ -11,7 +11,7 @@ namespace MadsKristensen.VoiceExtension
         public const string Name = "Voice Commands";
         public const string Description = @"Control Visual Studio using your own voice and with high accuracy";
         public const string Language = "en-US";
-        public const string Version = "1.7";
+        public const string Version = "2.0";
         public const string Author = "Mads Kristensen";
         public const string Tags = "voice, speech, speak";
     }

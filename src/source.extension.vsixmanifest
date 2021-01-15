@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="b4558cd7-da41-47e7-8969-46c357a1b8b3" Version="1.7" Language="en-US" Publisher="Mads Kristensen" />
+        <Identity Id="b4558cd7-da41-47e7-8969-46c357a1b8b3" Version="2.0" Language="en-US" Publisher="Mads Kristensen" />
         <DisplayName>Voice Commands</DisplayName>
         <Description xml:space="preserve">Control Visual Studio using your own voice and with high accuracy</Description>
         <MoreInfo>http://visualstudiogallery.msdn.microsoft.com/ce35c120-405a-435b-af2a-52ff24eb2c30</MoreInfo>
@@ -12,8 +12,7 @@
         <Tags>voice, speech, speak</Tags>
     </Metadata>
     <Installation InstalledByMsi="false">
-        <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="12.0" />
-        <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[14.0,17.0)" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[15.0,17.0)" />
     </Installation>
     <Prerequisites>
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
