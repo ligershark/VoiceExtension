@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandTable.cs" />
-    <Compile Include="Helpers\Telemetry.cs" />
     <Compile Include="Helpers\OutputWindowTraceListener.cs" />
     <Compile Include="source.extension.cs">
       <AutoGen>True</AutoGen>

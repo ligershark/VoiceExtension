@@ -39,8 +39,6 @@ namespace MadsKristensen.VoiceExtension
             _cache = new CommandTable(_dte);
             OutputWindowTraceListener.Register(Vsix.Name, nameof(VoiceExtension));
 
-            //Telemetry.Initialize(this, Vsix.Version, "c18e8661-f6e6-466d-b968-a6c128506bf4");
-
             InitializeSpeechRecognition();
 
             // Setup listening command
